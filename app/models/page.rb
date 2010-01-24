@@ -45,6 +45,8 @@ class Page < ActiveRecord::Base
   has_one :section_node, :as => :node, :dependent => :destroy
   
   has_many :tasks
+
+  belongs_to :page_template, :class_name => 'AbstractView', :foreign_key => 'template_file_id'
   
   before_validation :append_leading_slash_to_path
   before_destroy :delete_connectors
@@ -208,14 +210,21 @@ class Page < ActiveRecord::Base
   def layout
     template_file_name && "templates/#{template_file_name.split('.').first}"
   end
-  
-  # This will be nil if it is a file system based template
-  def template
-    PageTemplate.find_by_file_name(template_file_name)
-  end
+
+# Redundant
+#  # This will be nil if it is a file system based template
+#  def template
+#    PageTemplate.find_by_file_name(template_file_name)
+#  end
   
   def template_name
     template_file_name && PageTemplate.display_name(template_file_name)
+  end
+
+  # Previously a column in the pages table, but now retrieved from #page_template
+  # via template_file_id
+  def template_file_name
+    page_template && page_template.file_name
   end
 
   def ancestors

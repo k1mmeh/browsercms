@@ -10,11 +10,16 @@ class PageTemplateTest < ActiveSupport::TestCase
     File.delete(@page_template.file_path) if File.exists?(@page_template.file_path)    
   end
   
-  def test_create_and_destroy
+  def test_create_rename_and_destroy
     assert !File.exists?(@page_template.file_path), "template file already exists"
     assert_valid @page_template
     assert @page_template.save
     assert File.exists?(@page_template.file_path), "template file was not written to disk"
+    old_file_path = @page_template.file_path
+    @page_template.update_attributes!(:name => 'test_changed')
+    assert @page_template.file_name.match(/^test_changed/), "file name has not updated following name change"
+    assert !File.exist?(old_file_path), "old file still exists following name change"
+    assert File.exist?(@page_template.file_path), "new file has not been created following name change"
     @page_template.destroy
     assert !File.exists?(@page_template.file_path), "template file was not removed on destroy"    
   end

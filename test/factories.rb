@@ -78,6 +78,12 @@ Factory.define :page_template do |m|
 </html>}
 end
 
+Factory.define :fs_page_template do |m|
+  m.sequence(:name) {|n| "fs_page_template_#{n}" }
+  m.format "html"
+  m.handler "erb"
+end
+
 Factory.define :permission do |m|
   m.sequence(:name) {|n| "TestPermission#{n}" }
 end

@@ -92,16 +92,17 @@ class PageTest < ActiveRecord::TestCase
   
   def test_template
     page_template = Factory(:page_template, :name => 'test')
-    page = Factory.build(:page, :template_file_name => 'test.html.erb')
+    page = Factory.build(:page, :page_template => page_template)
     assert_equal 'test.html.erb', page.template_file_name
     assert_equal 'Test (html/erb)', page.template_name
-    assert_equal page_template, page.template
+    assert_equal page_template, page.page_template
     assert_equal 'templates/test', page.layout
-    
-    page = Factory.build(:page, :template_file_name => 'foo.html.erb')
+
+    fs_page_template = Factory(:fs_page_template, :name => 'foo')
+    page = Factory.build(:page, :page_template => fs_page_template)
     assert_equal 'foo.html.erb', page.template_file_name
     assert_equal 'Foo (html/erb)', page.template_name
-    assert_nil page.template
+    assert_equal fs_page_template, page.page_template
     assert_equal 'templates/foo', page.layout
   end
     

@@ -2,9 +2,11 @@
 <% form_for([:cms, @view]) do |f| %>
   <%= f.error_messages %>
   <%= f.cms_text_field :name %>
+<% if @view.is_a?(DynamicView) -%>
   <%= f.cms_text_field :format %>
   <%= f.cms_drop_down :handler, ActionView::Template.template_handler_extensions, :default => "erb" %>
   <%= f.cms_text_area :body, :style => "height: 500px" %>
+<% end -%>
   <div class="buttons">
     <%= lt_button_wrapper(f.submit("Save", :class => "submit", :tabindex => next_tabindex)) %>
   </div>

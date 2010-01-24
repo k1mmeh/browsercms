@@ -10,7 +10,8 @@ class Cms::ContentControllerTest < ActionController::TestCase
   end
 
   def test_show_another_page
-    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :template_file_name => "default.html.erb", :publish_on_save => true)
+    page_template = Factory.build(:page_template, :name => 'default')
+    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :page_template => page_template, :publish_on_save => true)
     get :show, :path => ["about"]
     assert_select "title", "Test About"
   end
@@ -113,7 +114,7 @@ class Cms::ContentControllerTest < ActionController::TestCase
     @page_template = Factory(:page_template, :name => "test_show_page_route")
     @page = Factory(:page,
       :section => root_section,
-      :template_file_name => "test_show_page_route.html.erb")
+      :page_template => @page_template)
     @portlet = DynamicPortlet.create!(:name => "Test",
       :template => "<h1><%= @foo %></h1>",
       :connect_to_page_id => @page.id, :connect_to_container => "main")
@@ -159,11 +160,12 @@ class Cms::ContentControllerTest < ActionController::TestCase
 
     def create_protected_page
       create_protected_user_section_group
+      page_template = Factory.build(:page_template, :name => 'default')
       @page = Factory(:page,
         :section => @protected_section,
         :path => "/secret",
         :name => "Shhh... It's a Secret",
-        :template_file_name => "default.html.erb",
+        :page_template => page_template,
         :publish_on_save => true)
     end
 
@@ -181,22 +183,23 @@ class Cms::ContentControllerTest < ActionController::TestCase
     end
 
     def create_archived_page
+      page_template = Factory.build(:page_template, :name => "default")
       @page = Factory(:page,
         :section => root_section,
         :path => "/archived",
         :name => "Archived",
         :archived => true,
-        :template_file_name => "default.html.erb",
+        :page_template => page_template,
         :publish_on_save => true)
     end
 
     def create_page_with_content
-      @page_template = Factory(:page_template, :name => "testing_editting_content")
+      @page_template = Factory.build(:page_template, :name => "testing_editting_content")
 
       @page = Factory(:page,
         :section => root_section,
         :path => "/page_with_content",
-        :template_file_name => "testing_editting_content.html.erb")
+        :page_template => @page_template)
 
       @block = HtmlBlock.create!(:name => "Test",
         :content => "<h3>TEST</h3>",
@@ -377,7 +380,8 @@ class Cms::ContentCachingDisabledControllerTest < ActionController::TestCase
   end
 
   def test_portlet_throw_access_denied_goes_to_access_denied_page
-    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :template_file_name => "default.html.erb", :publish_on_save => true)
+    page_template = Factory.build(:page_template, :name => 'default')
+    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :page_template => page_template, :publish_on_save => true)
     @portlet_render = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :template => '<p id="hi">hello</p>')
     @portlet_raise_access_denied = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :code => 'raise Cms::Errors::AccessDenied')
     reset(:page)
@@ -387,7 +391,8 @@ class Cms::ContentCachingDisabledControllerTest < ActionController::TestCase
     assert_select "title", "Access Denied"
   end
   def test_portlet_throw_not_found_goes_to_not_found_page
-    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :template_file_name => "default.html.erb", :publish_on_save => true)
+    page_template = Factory.build(:page_template, :name => 'default')
+    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :page_template => page_template, :publish_on_save => true)
     @portlet_render = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :template => '<p id="hi">hello</p>')
     @portlet_raise_not_found = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :code => 'raise ActiveRecord::RecordNotFound')
     reset(:page)
@@ -398,7 +403,8 @@ class Cms::ContentCachingDisabledControllerTest < ActionController::TestCase
   end
 
   def test_portlets_throw_multiple_goes_to_not_found
-    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :template_file_name => "default.html.erb", :publish_on_save => true)
+    page_template = Factory.build(:page_template, :name => 'default')
+    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :page_template => page_template, :publish_on_save => true)
     @portlet_render = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :template => '<p id="hi">hello</p>')
     @portlet_raise_not_found = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :code => 'raise ActiveRecord::RecordNotFound')
     @portlet_raise_access_denied = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :code => 'raise Cms::Errors::AccessDenied')   
@@ -411,7 +417,8 @@ class Cms::ContentCachingDisabledControllerTest < ActionController::TestCase
   end
 
   def test_portlets_throw_multiple_goes_to_access_denied
-    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :template_file_name => "default.html.erb", :publish_on_save => true)
+    page_template = Factory.build(:page_template, :name => 'default')
+    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :page_template => page_template, :publish_on_save => true)
     @portlet_render = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :template => '<p id="hi">hello</p>')
     @portlet_raise_access_denied = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :code => 'raise Cms::Errors::AccessDenied')   
     @portlet_raise_generic = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :code => 'raise')
@@ -422,7 +429,8 @@ class Cms::ContentCachingDisabledControllerTest < ActionController::TestCase
     assert_select "title", "Access Denied"
   end
   def test_portlet_throw_generic_exception_still_render_page
-    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :template_file_name => "default.html.erb", :publish_on_save => true)
+    page_template = Factory.build(:page_template, :name => 'default')
+    @page = Factory(:page, :section => root_section, :path => "/about", :name => "Test About", :page_template => page_template, :publish_on_save => true)
     @portlet_render = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :template => '<p id="hi">hello</p>')
     @portlet_raise_generic = DynamicPortlet.create!(:name => "Test", :connect_to_page_id => @page.id, :connect_to_container => "main", :code => 'raise')
     reset(:page)

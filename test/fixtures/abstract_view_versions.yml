@@ -1,6 +1,6 @@
-dynamic_view_version_1:
+abstract_view_version_1:
   id: 1
-  dynamic_view_id: 1
+  abstract_view_id: 1
   version: 1
   type: PageTemplate
   name: default
