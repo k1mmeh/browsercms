@@ -13,5 +13,4 @@ class Cms::DashboardControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "title", "Dashboard"
   end
-  
 end
