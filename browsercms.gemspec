@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{browsercms}
-  s.version = "3.1.0"
+  s.version = "3.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["BrowserMedia"]
@@ -68,6 +68,7 @@ Gem::Specification.new do |s|
      "app/helpers/cms/section_nodes_helper.rb",
      "app/helpers/cms/template_support.rb",
      "app/models/abstract_file_block.rb",
+     "app/models/abstract_view.rb",
      "app/models/attachment.rb",
      "app/models/category.rb",
      "app/models/category_type.rb",
@@ -78,6 +79,7 @@ Gem::Specification.new do |s|
      "app/models/email_message.rb",
      "app/models/email_message_mailer.rb",
      "app/models/file_block.rb",
+     "app/models/fs_page_template.rb",
      "app/models/forgot_password_mailer.rb",
      "app/models/group.rb",
      "app/models/group_permission.rb",
@@ -101,6 +103,7 @@ Gem::Specification.new do |s|
      "app/models/section.rb",
      "app/models/section_node.rb",
      "app/models/site.rb",
+     "app/models/static_view.rb",
      "app/models/tag.rb",
      "app/models/tagging.rb",
      "app/models/task.rb",
@@ -258,6 +261,7 @@ Gem::Specification.new do |s|
      "db/migrate/20080815014337_browsercms_3_0_0.rb",
      "db/migrate/20081114172307_load_seed_data.rb",
      "db/migrate/20091109175123_browsercms_3_0_5.rb",
+     "db/migrate/20100121073840_browsercms_3_1_0.rb",
      "doc/app/classes/AbstractFileBlock.html",
      "doc/app/classes/ActiveRecord.html",
      "doc/app/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html",
@@ -1402,6 +1406,7 @@ Gem::Specification.new do |s|
      "test/unit/models/content_type_test.rb",
      "test/unit/models/email_page_portlet_test.rb",
      "test/unit/models/file_block_test.rb",
+     "test/unit/models/fs_page_template_test.rb",
      "test/unit/models/group_test.rb",
      "test/unit/models/html_block_test.rb",
      "test/unit/models/link_test.rb",
