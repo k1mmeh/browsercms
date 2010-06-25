@@ -78,7 +78,7 @@ class Browsercms311 < ActiveRecord::Migration
       view = page.page_template
       if view
         # restore template_file_name from page_template
-        execute "UPDATE pages SET template_file_name = '#{view.file_name.to_s}' WHERE id = #{page.id.to_i}"
+        execute "UPDATE pages SET template_file_name = '#{ActiveRecord::Base.connection.quote_string(view.file_name.to_s)}' WHERE id = #{page.id.to_i}"
       else
         # no page_template is assigned (bad), give it the default template
         default_view = find_or_create_template('default.html.erb')
@@ -91,7 +91,7 @@ class Browsercms311 < ActiveRecord::Migration
         view = AbstractView.find_by_id(version.template_file_id.to_i)
         if view
           # restore the template_file_name from template_file_id
-          execute "UPDATE page_versions SET template_file_name = '#{view.file_name.to_s}' WHERE id = #{version.id.to_i}"
+          execute "UPDATE page_versions SET template_file_name = '#{ActiveRecord::Base.connection.quote_string(view.file_name.to_s)}' WHERE id = #{version.id.to_i}"
         else
           # no page_template is assigned (bad), give it the default template
           default_view = find_or_create_template('default.html.erb')
