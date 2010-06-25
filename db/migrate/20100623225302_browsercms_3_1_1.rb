@@ -23,6 +23,7 @@ class Browsercms311 < ActiveRecord::Migration
       next if AbstractView.find_by_file_name(file)
       # cant find view in DB - create FsPageTemplate
 
+      puts "creating new FsPageTemplate named #{file}"
       fs_template = FsPageTemplate.new_from_file_name(file)
       fs_template.save
     end
