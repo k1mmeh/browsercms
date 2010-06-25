@@ -261,7 +261,7 @@ Gem::Specification.new do |s|
      "db/migrate/20080815014337_browsercms_3_0_0.rb",
      "db/migrate/20081114172307_load_seed_data.rb",
      "db/migrate/20091109175123_browsercms_3_0_5.rb",
-     "db/migrate/20100121073840_browsercms_3_1_0.rb",
+     "db/migrate/20100623225302_browsercms_3_1_1.rb",
      "doc/app/classes/AbstractFileBlock.html",
      "doc/app/classes/ActiveRecord.html",
      "doc/app/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html",
