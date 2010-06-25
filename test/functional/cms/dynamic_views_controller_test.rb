@@ -82,7 +82,7 @@ class Cms::DynamicViewsControllerTest < ActionController::TestCase
     get :index, :page => 2
     assert_response :success
     # count minus 15 on second page
-    should_have = PageTemplate.all.length - 15
+    should_have = (FsPageTemplate.all.length + PageTemplate.all.length) - 15
     assert_equal should_have, assigns['views'].length
   end
   

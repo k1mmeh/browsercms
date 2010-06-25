@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), '/../../test_helper')
-
+require 'ruby-debug'
 class FsPageTemplateTest < ActiveSupport::TestCase
   def setup
     @page_template = Factory.build(:fs_page_template, :name => "fs_test")
@@ -7,7 +7,7 @@ class FsPageTemplateTest < ActiveSupport::TestCase
   end
 
   def teardown
-    File.delete(@page_template.file_path) if File.exists?(@page_template.file_path)
+    #File.delete(@page_template.file_path) if File.exists?(@page_template.file_path)
   end
 
   def test_rename
@@ -15,7 +15,7 @@ class FsPageTemplateTest < ActiveSupport::TestCase
     @page_template.save!
     old_file_path = @page_template.file_path
     @page_template.update_attributes!(:name => 'fs_test_changed')
-    assert @page_template.file_name.match(/^test_changed/), "file name has not updated following name change"
+    assert @page_template.file_name.match(/^fs_test_changed/), "file name has not updated following name change"
     assert !File.exist?(old_file_path), "old file still exists following name change"
     assert File.exist?(@page_template.file_path), "new file has not been created following name change"
   end
