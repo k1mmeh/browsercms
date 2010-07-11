@@ -24,3 +24,30 @@ abstract_view_version_1:
   created_by_id: 1
   updated_by_id: 1
   deleted: false
+
+abstract_view_version_2:
+  id: 2
+  abstract_view_id: 2
+  version: 1
+  type: PageTemplate
+  name: main
+  format: html
+  handler: erb
+  body: |
+    <html>
+      <head>
+        <title>
+          <%%= @page_title %>
+        </title>
+        <%%= yield :html_head %>
+      </head>
+      <body>
+        <%%= cms_toolbar %>
+        <%%= container :main %>
+      </body>
+    </html>
+  created_at: Fri Jun 25 16:00:11 UTC 2010
+  updated_at: Fri Jun 25 16:00:11 UTC 2010
+  created_by_id: 1
+  updated_by_id: 1
+  deleted: false

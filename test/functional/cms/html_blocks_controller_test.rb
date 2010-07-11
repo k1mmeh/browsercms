@@ -4,6 +4,7 @@ class Cms::HtmlBlocksControllerTest < ActionController::TestCase
   include Cms::ControllerTestHelper
   
   def setup
+    DynamicView.write_all_to_disk!  # make sure that all db templates are on disk for functional tests
     login_as_cms_admin
     @block = Factory(:html_block, :name => "Test", :content => "I worked.", :publish_on_save => true)
   end

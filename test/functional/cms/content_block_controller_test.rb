@@ -6,6 +6,7 @@ class PermissionsForContentBlockControllerTest < ActionController::TestCase
   
   # We're stubbing a lot because we *just* want to isolate the behaviour for checking permissions
   def setup
+    DynamicView.write_all_to_disk!  # make sure that all db templates are on disk for functional tests
     login_as_cms_admin
     @user = User.first
     @controller.stubs(:current_user).returns(@user)

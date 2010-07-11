@@ -4,6 +4,7 @@ class Cms::DynamicViewsControllerTest < ActionController::TestCase
   include Cms::ControllerTestHelper
 
   def setup
+    DynamicView.write_all_to_disk!  # make sure that all db templates are on disk for functional tests
     login_as_cms_admin
   end
   
@@ -34,6 +35,10 @@ class Cms::DynamicViewsControllerTest < ActionController::TestCase
     assert_select "#page_template_#{@fs_deleted_page_template.id} div",
       :text => "Fs Deleted (html/erb)", :count => 0
 
+    # must tidy up created templates, else their file automatically registers in 
+    # later tests as FsPageTemplates
+    @page_template.destroy
+    @fs_page_template.destroy
   end
 
   def test_edit
@@ -58,6 +63,11 @@ class Cms::DynamicViewsControllerTest < ActionController::TestCase
       :text => "Handler", :count => 0
     assert_select "form#edit_fs_page_template_#{@fs_page_template.id} label",
       :text => "Body", :count => 0
+
+    # must tidy up created templates, else their file automatically registers in 
+    # later tests as FsPageTemplates
+    @page_template.destroy
+    @fs_page_template.destroy
   end
 
   def test_index_paging
@@ -84,6 +94,10 @@ class Cms::DynamicViewsControllerTest < ActionController::TestCase
     # count minus 15 on second page
     should_have = (FsPageTemplate.all.length + PageTemplate.all.length) - 15
     assert_equal should_have, assigns['views'].length
+
+    # must tidy up created templates, else their file automatically registers in 
+    # later tests as FsPageTemplates
+    @page_templates.each {|pt| pt.destroy}
   end
   
 end

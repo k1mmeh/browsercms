@@ -3,6 +3,10 @@ require File.join(File.dirname(__FILE__), '/../../test_helper')
 class Cms::HomeControllerTest < ActionController::TestCase
   include Cms::ControllerTestHelper
   
+  def setup
+    DynamicView.write_all_to_disk!  # make sure that all db templates are on disk for functional tests
+  end
+
   def test_cms_site_with_public_site
     @request.host = "foo.com"
     assert !@controller.send(:cms_site?)

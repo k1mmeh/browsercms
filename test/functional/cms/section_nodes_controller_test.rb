@@ -3,6 +3,10 @@ require File.join(File.dirname(__FILE__), '/../../test_helper')
 class Cms::SectionNodesControllerTest < ActionController::TestCase
   include Cms::ControllerTestHelper
   
+  def setup
+    DynamicView.write_all_to_disk!  # make sure that all db templates are on disk for functional tests
+  end
+
   def test_index_as_admin
     login_as_cms_admin
     @foo = Factory(:section, :name => "Foo", :parent => root_section)

@@ -3,6 +3,10 @@ require File.join(File.dirname(__FILE__), '/../../test_helper')
 class Cms::ContentTypesControllerTest < ActionController::TestCase
   include Cms::ControllerTestHelper
   
+  def setup
+    DynamicView.write_all_to_disk!  # make sure that all db templates are on disk for functional tests
+  end
+
   def test_select
     @html_block = Factory(:html_block, :name => "HtmlBlock")
     @page = Factory(:page, :section => root_section)

@@ -45,7 +45,7 @@ end
 Factory.define :page do |m|
   m.sequence(:name) {|n| "Page #{n}" }
   m.path {|a| "/#{a.name.gsub(/\s/,'_').downcase}" }
-  m.template_file_name "default.html.erb"
+  m.template_file_id 1 # assigned to default template from fixtures - see fixtures/abstract_views.yml
   m.association :section
 end
 

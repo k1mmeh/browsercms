@@ -4,6 +4,7 @@ class Cms::PortletsControllerTest < ActionController::TestCase
   include Cms::ControllerTestHelper
     
   def setup
+    DynamicView.write_all_to_disk!  # make sure that all db templates are on disk for functional tests
     login_as_cms_admin
     @block = DynamicPortlet.create!(:name => "V1", :code => "@foo = 42", :template => "<%= @foo %>")    
   end

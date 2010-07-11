@@ -4,6 +4,7 @@ class Cms::GroupsControllerTest < ActionController::TestCase
   include Cms::ControllerTestHelper
 
   def setup
+    DynamicView.write_all_to_disk!  # make sure that all db templates are on disk for functional tests
     @edit_content = Permission.find_by_name("edit_content")
     @publish_content = Permission.find_by_name("publish_content")
     @random = Factory(:permission, :name => "shouldnt-be-included")
