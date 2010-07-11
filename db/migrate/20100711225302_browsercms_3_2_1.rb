@@ -1,4 +1,4 @@
-class Browsercms311 < ActiveRecord::Migration
+class Browsercms321 < ActiveRecord::Migration
 
   def self.up
     # Changes to DynamicView with regard to lighthouse ticket #266

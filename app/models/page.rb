@@ -63,7 +63,7 @@ class Page < ActiveRecord::Base
 
   belongs_to :page_template, :class_name => 'AbstractView', :foreign_key => 'template_file_id'
   
-  before_validation :append_leading_slash_to_path
+  before_validation :append_leading_slash_to_path, :remove_trailing_slash_from_path
   before_destroy :delete_connectors
   
   validates_presence_of :name, :path
@@ -219,6 +219,12 @@ class Page < ActiveRecord::Base
     elsif path[0,1] != "/"
       self.path = "/#{path}"
     end
+  end
+
+  # remove trailing slash, unless the path is only a slash.  uses capture and
+  # substition because ruby regex engine does not support lookbehind
+  def remove_trailing_slash_from_path
+    self.path.sub!(/(.+)\/+$/, '\1') 
   end
   
   def path_not_reserved

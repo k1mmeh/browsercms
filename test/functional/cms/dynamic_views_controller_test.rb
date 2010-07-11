@@ -7,7 +7,7 @@ class Cms::DynamicViewsControllerTest < ActionController::TestCase
     DynamicView.write_all_to_disk!  # make sure that all db templates are on disk for functional tests
     login_as_cms_admin
   end
-  
+
   def test_index
     @deleted_page_template = Factory(:page_template, :name => "deleted")
     @deleted_page_template.destroy
@@ -22,8 +22,9 @@ class Cms::DynamicViewsControllerTest < ActionController::TestCase
     def @request.request_uri
       "/cms/page_templates"
     end
+
     get :index
-    
+
     assert_response :success
     #log @response.body
     assert_select "#page_template_#{@page_template.id} div", "Test (html/erb)"
@@ -99,5 +100,5 @@ class Cms::DynamicViewsControllerTest < ActionController::TestCase
     # later tests as FsPageTemplates
     @page_templates.each {|pt| pt.destroy}
   end
-  
+
 end
