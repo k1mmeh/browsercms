@@ -1,5 +1,5 @@
 class Section < ActiveRecord::Base
-
+  
   flush_cache_on_change
 
   #The node that links this section to its parent
@@ -14,6 +14,8 @@ class Section < ActiveRecord::Base
 
   has_many :group_sections
   has_many :groups, :through => :group_sections
+
+  has_many :section_property_values
 
   named_scope :root, :conditions => ['root = ?', true]
   named_scope :system, :conditions => {:name => 'system'}
@@ -34,6 +36,8 @@ class Section < ActiveRecord::Base
 
   before_destroy :deletable?
 
+  accepts_nested_attributes_for :section_property_values, :reject_if => proc { |attributes| !SectionProperty.find_by_id(attributes['section_property_id']) }
+    
   attr_accessor :full_path
 
   def visible_child_nodes(options={})
@@ -152,4 +156,19 @@ class Section < ActiveRecord::Base
       self.groups = Group.all
     end
   end
+
+  def section_property_from_key(key)
+    property = SectionProperty.find_by_key(key)
+    return nil unless property
+
+    return self.section_property_values.detect {|p| p.section_property_id == property.id}
+  end
+
+  def show_section_property(key)
+    property = section_property_from_key(key)
+    return nil unless property
+
+    return property.value
+  end
+
 end

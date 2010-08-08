@@ -52,6 +52,22 @@
     </div>
   </div>
   <br clear="all" />
+
+  <h3>Section Properties</h3>
+  
+  <% SectionProperty.find(:all, :order => 'property_type ASC, name ASC').each do |sp| -%>
+    <% existing = @section.section_property_values.detect { |spv| spv.section_property_id == sp.id } %>
+    <div class="fields textarea_fields" style="float: left; width: 100%">
+      <label><%= sp.name %></label>
+      <%= text_area_tag 'section[section_property_values_attributes][][value]', existing ? existing.value : '', :rows => 3 %>
+      <%= hidden_field_tag 'section[section_property_values_attributes][][section_property_id]', sp.id %>
+      <% if existing %>
+        <%= hidden_field_tag 'section[section_property_values_attributes][][id]', existing.id %>
+      <% end %>
+    </div>
+    <br clear="all" />
+  <% end -%>
+
 <% end %>
 
 <div class="buttons">
